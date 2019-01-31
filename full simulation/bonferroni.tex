@@ -1,0 +1,86 @@
+\documentclass[12pt]{article}
+%\usepackage{caption} % improved spacing between figure and caption
+\usepackage[utf8]{inputenc}
+ \usepackage{bm}
+\usepackage{amsmath}
+ \usepackage{booktabs} 
+ %\usepackage{pgfplots} 
+% \usepackage{pgfplotstable} 
+ \usepackage{multirow}
+\newcommand{\Real}{\mathbb{R}}
+ \newcommand{\dom}{{\bf dom}\,}
+ \newcommand{\Tra}{^{\sf T}} % Transpose
+ \newcommand{\Inv}{^{-1}} % Inverse
+ \def\vec{\mathop{\rm vec}\nolimits}
+ \def\sweep{\mathop{\rm sweep}\nolimits}
+ \newcommand{\diag}{\mathop{\rm diag}\nolimits}
+ \newcommand{\tr}{\operatorname{tr}} % Trace
+ \newcommand{\epi}{\operatorname{epi}} % epigraph
+ \newcommand{\V}[1]{{\bm{\mathbf{\MakeUppercase{#1}}}}} % vector
+ \newcommand{\VE}[2]{\MakeLowercase{#1}_{#2}} % vector element
+ \newcommand{\Vn}[2]{\V{#1}^{(#2)}} % n-th vector
+ \newcommand{\Vtilde}[1]{{\bm{\tilde \mathbf{\MakeLowercase{#1}}}}} % vector
+ \newcommand{\Vhat}[1]{{\bm{\hat \mathbf{\MakeLowercase{#1}}}}} % vector
+ \newcommand{\VtildeE}[2]{\tilde{\MakeLowercase{#1}}_{#2}} % vector element
+ \newcommand{\M}[1]{{\bm{\mathbf{\MakeUppercase{#1}}}}} % matrix
+ \newcommand{\ME}[2]{\MakeLowercase{#1}_{#2}} % matrix element
+ \newcommand{\Mtilde}[1]{{\bm{\tilde \mathbf{\MakeUppercase{#1}}}}} % matrix
+ \newcommand{\Mhat}[1]{{\bm{\hat \mathbf{\MakeUppercase{#1}}}}} % matrix
+ \newcommand{\Mcheck}[1]{{\bm{\check \mathbf{\MakeUppercase{#1}}}}} % matrix
+ \newcommand{\Mbar}[1]{{\bm{\bar \mathbf{\MakeUppercase{#1}}}}} % matrix
+ \newcommand{\Mn}[2]{\M{#1}^{(#2)}} % n-th matrix
+ %artcle or book or beamer, letter 
+%if use beamer, use \begin{frame}\end{frame}to begin a new slide, and do not use package{geometry}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage{hyperref}
+%\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+%\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{multirow}
+\usepackage{subfigure}
+%\usepackage{listings}
+%\usepackage[top=2cm,bottom=2cm]{geometry}%l\usepackage{latexsym}
+\usepackage{listings}\lstset{breaklines}
+%\usepackage[top=2cm,bottom=2cm]{geometry}
+%\usepackage{extarrows}
+%\usepackage{makecell}
+\usepackage{array}
+%\usepackage{natbib}
+%\usepackage{cite}
+%\usepackage{biblatex}
+%\addbibresource{reference.bib}
+ \usepackage{color}
+ 
+ \def\E{\mathbb{E}}
+ \def\R{\mathbb{R}}
+ \def\T{\mathcal{T}}
+ \def\ba{\mathbf{a}}
+ \def\N{\mathcal{N}}
+ \def\C{\mathcal{C}}
+ 
+ \def\luo#1{{\bf \color{red} Luo: \color{blue} #1}}
+ 
+\title{Bonferroni Correction for Multiple Comparisons}
+\begin{document}
+\maketitle
+
+
+
+When there is $m$ comparisons, the probability of falsely rejecting at least one of the $m$ null hypotheses is $$\alpha_{\mbox{E}} = 1-(1-\alpha_{\mbox{I}})^{m},$$
+where $\alpha_{\mbox{E}}$ is the experimentwise type I error rate, and $\alpha_{\mbox{I}}$ is the individual comparisons Type I error rate.
+Easy to see that as the number of tests $m$ increases for a given value of $\alpha_{\mbox{I}}$, the probability of falsely rejecting $H_0$ on at least one of the $m$ tests can be quite large. 
+In practical problems, where tests will not be independent, we have the upper bound as follows:
+ $$\alpha_{\mbox{E}} \le 1-(1-\alpha_{\mbox{I}})^{m}$$
+and 
+$$1-(1-\alpha_{\mbox{I}})^{m}\le m\cdot \alpha_{\mbox{I}}$$
+(we can show that $(1-x)^m\ge1-xm, x\in(0,1)$)
+Let $m\cdot \alpha_{\mbox{I}}=\alpha$, we can guarantee that the chance of a Type I error is at most $\alpha$, that is, $\alpha_{\mbox{I}}=\frac{\alpha}{m}$
+\end{document}
