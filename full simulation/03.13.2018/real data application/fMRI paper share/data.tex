@@ -1,0 +1,34 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+\section{Data and Method}
+%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Data from a fMRI pain study}
+The following description of the fMRI data is mostly based on Martin's recent JASA paper \cite{lindquist2012functional} on the functional data analysis. In that experiment, a heat stimuli was applied at one of two different levels (high and low) to each of 20 subjects at each repetition for 18 seconds. In 14 seconds later than the stimulus each subject was asked to report the subjective pain rating and responded in a few seconds. During the entire course of the experiment, each subject's brain activity was measured by fMRI method. Therefore, functional MRI data was sampled from 21 diverse classic pain-responsive brain regions. Each sample regiment had 23 equidistant temporal measurements made every 2 seconds, totally covering a 46-second brain activity from the application of the heat stimuli to the subjective pain report. The same experiment was conducted on each subject multiple times but the number of the repetitions is unbalanced design ranging from 39 to 48.
+
+
+Based on the description above, the matrix $M_{I\times J}$ denotes the design matrix of Brain activation data sampled at a particular voxel on 20 interviewees with 39-48 replication each during 46-second fMRI experiment in 23 sampling time points.
+
+$$
+M_{I\times J} = 
+\begin{pmatrix}
+M_{1,1}(t_1) & M_{1,1}(t_2) & \cdots & M_{1,1}(t_{23}) \\
+M_{1,2}(t_1) & M_{1,2}(t_2) & \cdots & M_{1,2}(t_{23}) \\
+\vdots  & \vdots  & \ddots & \vdots  \\
+M_{n,J_n}(t_1) & M_{n,J_n}(t_2) & \cdots & M_{n,J_n}(t_{23})
+\end{pmatrix}
+$$
+
+
+
+Without the consideration on the subjective random error in the population, denote $y_{ij}$ as the subjective rating at $i$th subject in $j$th replication, $Z_{ij}$ as the indicator variable of thermal stimuli level at $i$th subject in $j$th replication whose value 1 for the high level and 0 for the low level, $\delta$ and $\gamma$ as the parameters of the general linear model, $M_{ij}(t)$ as the temporal functional covariate of the brain activation at a particular voxel in fMRI data set, $\beta(t)$ as the corresponding functional curve and $\epsilon_{ij}$ as the white error. The mean mixed model is described as $y_{ij} = \delta + \gamma Z_{ij} + \int \beta(t) M_{ij}(t) \, \mathrm{d}t + \epsilon_{ij}$, where $\epsilon_{ij}$ is i.i.d. across $i$ and $j$ and $\epsilon_{ij} \sim N(0, \sigma^2)$.  
+
+However, based on our previous knowledge on that fMRI data across experimental interviewees, the individual random effect accounts for the causal effect on the thermal pain rating across different subjects. In order to explain the subjective error drawn from the population we consider, the individual-level random error terms are affiliated to each fixed parameter and parameter curve. 
+Therefore, the extended functional mixed effect model is formed as the following.
+
+
+The underlying distribution on $y_{ij}$ based on the model we formulate is of our interest, but the integration on the temporal random effect curve is the obstacle in the routine of functional regression analysis. On approach in fitting the functional mixed model is to assemble the sampling distribution and the conditional distribution $y_{ij}|\beta_i$ which maintains a simple form and relatively easy to be estimated.  
+
+Based on the assumption above on $E(\beta_i) = 0$ and $COV[\beta_i(s), \beta_i(t)] = K(s, t)$, the complex structure of the functional covariance results in great computational burden in maximum likelihood method and large bias in method of moment. In order to simplify the model, the assumption on the functional covariance should be made.
+

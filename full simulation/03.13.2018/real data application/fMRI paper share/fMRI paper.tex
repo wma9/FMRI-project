@@ -1,0 +1,100 @@
+\documentclass[12pt]{article}
+%\usepackage{caption} % improved spacing between figure and caption
+\usepackage[utf8]{inputenc}
+ \usepackage{bm}
+\usepackage{amsmath}
+ \usepackage{booktabs} 
+ %\usepackage{pgfplots} 
+% \usepackage{pgfplotstable} 
+ \usepackage{multirow}
+\newcommand{\Real}{\mathbb{R}}
+ \newcommand{\dom}{{\bf dom}\,}
+ \newcommand{\Tra}{^{\sf T}} % Transpose
+ \newcommand{\Inv}{^{-1}} % Inverse
+ \def\vec{\mathop{\rm vec}\nolimits}
+ \def\sweep{\mathop{\rm sweep}\nolimits}
+ \newcommand{\diag}{\mathop{\rm diag}\nolimits}
+ \newcommand{\tr}{\operatorname{tr}} % Trace
+ \newcommand{\epi}{\operatorname{epi}} % epigraph
+ \newcommand{\V}[1]{{\bm{\mathbf{\MakeUppercase{#1}}}}} % vector
+ \newcommand{\VE}[2]{\MakeLowercase{#1}_{#2}} % vector element
+ \newcommand{\Vn}[2]{\V{#1}^{(#2)}} % n-th vector
+ \newcommand{\Vtilde}[1]{{\bm{\tilde \mathbf{\MakeLowercase{#1}}}}} % vector
+ \newcommand{\Vhat}[1]{{\bm{\hat \mathbf{\MakeLowercase{#1}}}}} % vector
+ \newcommand{\VtildeE}[2]{\tilde{\MakeLowercase{#1}}_{#2}} % vector element
+ \newcommand{\M}[1]{{\bm{\mathbf{\MakeUppercase{#1}}}}} % matrix
+ \newcommand{\ME}[2]{\MakeLowercase{#1}_{#2}} % matrix element
+ \newcommand{\Mtilde}[1]{{\bm{\tilde \mathbf{\MakeUppercase{#1}}}}} % matrix
+ \newcommand{\Mhat}[1]{{\bm{\hat \mathbf{\MakeUppercase{#1}}}}} % matrix
+ \newcommand{\Mcheck}[1]{{\bm{\check \mathbf{\MakeUppercase{#1}}}}} % matrix
+ \newcommand{\Mbar}[1]{{\bm{\bar \mathbf{\MakeUppercase{#1}}}}} % matrix
+ \newcommand{\Mn}[2]{\M{#1}^{(#2)}} % n-th matrix
+ %artcle or book or beamer, letter 
+%if use beamer, use \begin{frame}\end{frame}to begin a new slide, and do not use package{geometry}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage{hyperref}
+%\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+%\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{multirow}
+\usepackage{subfigure}
+%\usepackage{listings}
+%\usepackage[top=2cm,bottom=2cm]{geometry}%l\usepackage{latexsym}
+\usepackage{listings}\lstset{breaklines}
+%\usepackage[top=2cm,bottom=2cm]{geometry}
+%\usepackage{extarrows}
+%\usepackage{makecell}
+\usepackage{array}
+%\usepackage{natbib}
+%\usepackage{cite}
+%\usepackage{biblatex}
+%\addbibresource{reference.bib}
+ \usepackage{color}
+
+ 
+ \def\E{\mathbb{E}}
+ \def\R{\mathbb{R}}
+ \def\T{\mathcal{T}}
+ \def\ba{\mathbf{a}}
+ \def\N{\mathcal{N}}
+ \def\C{\mathcal{C}}
+ 
+ \def\luo#1{{\bf \color{red} Luo: \color{blue} #1}}
+ 
+\title{A functional mixed effect model for scalar on function regression with application to a fMRI pain study}
+\author{Wanying Ma, Bowen Liu, Luo Xiao, Martin A.Lindquist}
+\date{\today}
+ 
+\begin{document}
+\maketitle
+\section{Introduction}
+Recently, there has been a rapid emerge in the area of brain imaging study\cite{lindquist2008statistical, wager2008prefrontal,zipunnikov2011multilevel,huang2017two}. Scientific interest has raised in the potential relationship between the continuously observed brain activity trajectories with one's subjective reaction to certain experiment conditions\cite{lindquist2012functional}, results of the subject-level difference in the observed trajectories in the reaction, and thus how the brain activity interacts the psychological/physiological process. Equipped with instruments such as fMRI or EEG machine\cite{wang2016functional}, a functional brain activity curve can be noninvasively observed on the equally spaced time grid $t_1,\dots,t_p$ over time, that is, $t_{i+1}-t_{i}=t_{j+1}-t_j$, $\forall 1\le i,j\le p$. Functional magnetic resonance imaging, or functional MRI(fMRI) measures the brain activity noninvasively by detecting the change in the blood flow associated with the neuron. During the entire course of fMRI, a sequence of magnetic resonance imaging(MRI) are performed, with a number of volume elements, or voxels, placed evenly over the brain\cite{lindquist2008statistical}. At the mean time, subjects can be asked for a set of tasks in the brain imaging experiment. Therefore, fMRI provides people with both spatial and temporal resolution for brain mapping function in response for the experimental task, and facilitate people with a non-surgery technique for the neuron activity research purpose\cite{cohen2017computational}. Researchers have gained lots of insights in the connections between brain activity function and psychological/physiological reaction through modeling fMRI data. In this work, we mainly focus on exploring the effects of subject-level brain activity function on self-reporting response in the frame work of functional data analysis.
+
+Functional data analysis plays an important role in dealing with densely observed data in the observational studies and clinical trials in the past decades\cite{goldsmith2015generalized,di2009multilevel,ramsay2006functional,ramsay2007applied,xiao2018fast,xiao2016fast, yao2005functional, mclean2015restricted, huang2014joint, xiao2014quantifying}. Monitored by the development of technology, one can observe full trajectories with repeated measurements during a time interval or at several discrete time points\cite{crainiceanu2009generalized, xiao2014quantifying, goldsmith2015generalized,xiao2016movement}. The methods and techniques in the development of functional data analysis have been extensitively overviewed \cite{ramsay2005functional, ramsay2007applied, wang2016functional}. Functional principal component analysis (FPCA) as a main tool in functional data analysis for dimension reduction and identifying the main directions in the covariance function has a long history\cite{ramsay1991some,kneip1994nonparametric, staniswalis1998nonparametric, yao2005functional, di2009multilevel,zipunnikov2011multilevel};
+
+
+
+
+There has been a vast amount of applications using functional data analysis. Functional linear regressionFew methods has been developed to make good use of fully observed fMRI trajectory in stead of summarized statistics in the past decades\cite{cohen2017computational, lindquist2012functional}. These immense data reduction leads to an obscure picture on the brain activity change over time, and thus leaves the connection between subject's experimental response not well explained. The development of functional data analysis  Functional data analysis has great application in the area of physical activity dataMartin\cite{lindquist2012functional} incorporated the functional data analysis settings into the standard mediation model(SME), established a linear functional standard mediation model(lfSME), being able to identifiably explain the causal effects from the parameters in lfSME under certain conditions.
+
+The remainder of this paper is organized as follows. Section 2 will explain the experiment for aggregating the data, explicitly describe steps on developing the functional linear mixed model and test procedures. Corresponding simulation study under different cases will be given in Section 3. The proposed methodology to a real data application on fMRI dataset will be given in Section 4. 
+\input{data}
+\luo{I started working from here}.
+\input{method}
+\input{simulation}
+\newpage
+\input{application}
+\newpage
+\bibliography{reference}
+\bibliographystyle{plain}
+%\input{supplement}
+
+\end{document}

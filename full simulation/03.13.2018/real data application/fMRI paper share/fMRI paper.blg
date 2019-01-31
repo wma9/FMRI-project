@@ -1,0 +1,51 @@
+This is BibTeX, Version 0.99d (TeX Live 2016)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: fMRI paper.aux
+The style file: plain.bst
+Database file #1: reference.bib
+Repeated entry---line 170 of file reference.bib
+ : @article{wang2016functional
+ :                            ,
+I'm skipping whatever remains of this entry
+You've used 23 entries,
+            2118 wiz_defined-function locations,
+            646 strings with 8285 characters,
+and the built_in function-call counts, 8794 in all, are:
+= -- 863
+> -- 485
+< -- 2
++ -- 192
+- -- 168
+* -- 717
+:= -- 1488
+add.period$ -- 69
+call.type$ -- 23
+change.case$ -- 149
+chr.to.int$ -- 0
+cite$ -- 23
+duplicate$ -- 274
+empty$ -- 617
+format.name$ -- 168
+if$ -- 1766
+int.to.chr$ -- 0
+int.to.str$ -- 23
+missing$ -- 25
+newline$ -- 118
+num.names$ -- 46
+pop$ -- 123
+preamble$ -- 1
+purify$ -- 128
+quote$ -- 0
+skip$ -- 191
+stack$ -- 0
+substring$ -- 639
+swap$ -- 43
+text.length$ -- 2
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 88
+warning$ -- 0
+while$ -- 86
+width$ -- 25
+write$ -- 252
+(There was 1 error message)

@@ -1,0 +1,17 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Data and Method}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Data from a fMRI pain study}{section.2}% 3
+\BOOKMARK [1][-]{section.3}{Functional mixed effects model for scalar on function regression with repeated outcomes}{}% 4
+\BOOKMARK [2][-]{subsection.3.1}{Model estimation}{section.3}% 5
+\BOOKMARK [1][-]{section.4}{Test of random functional effect}{}% 6
+\BOOKMARK [2][-]{subsection.4.1}{Equivalent model formulation of \(4\)}{section.4}% 7
+\BOOKMARK [1][-]{section.5}{A simulation study}{}% 8
+\BOOKMARK [2][-]{subsection.5.1}{Simulation setting}{section.5}% 9
+\BOOKMARK [2][-]{subsection.5.2}{Results on test}{section.5}% 10
+\BOOKMARK [2][-]{subsection.5.3}{Size Testing To Be Added}{section.5}% 11
+\BOOKMARK [2][-]{subsection.5.4}{Power Testing To Be Added}{section.5}% 12
+\BOOKMARK [2][-]{subsection.5.5}{Estimation To Be Added}{section.5}% 13
+\BOOKMARK [1][-]{section.6}{Real Data Application}{}% 14
+\BOOKMARK [2][-]{subsection.6.1}{Simulation Setting}{section.6}% 15
+\BOOKMARK [2][-]{subsection.6.2}{Simulation Results for Size Test}{section.6}% 16
+\BOOKMARK [2][-]{subsection.6.3}{Simulation Results for Power Test}{section.6}% 17

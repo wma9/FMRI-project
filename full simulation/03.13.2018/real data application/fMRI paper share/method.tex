@@ -1,0 +1,234 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Functional mixed effects model for scalar on function regression with repeated outcomes}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+To model subject-specific random effect of a functional predictor,
+ we propose a novel functional mixed effect model extending
+ the scalar on function linear regression for repeated outcomes. 
+ The proposed model is
+\begin{equation}
+\label{eq:model}
+Y_{ij} = \alpha + Z_{ij} (\gamma + \gamma_i)  + \int \left \{\beta(t) + \beta_i(t)\right\} X_{ij}(t) \, \mathrm{d}t + \epsilon_{ij},
+\end{equation}
+where $\alpha$ is the population intercept, $\gamma$ is the population effect of $Z_{ij}$, 
+$\gamma_i$ is the random subject-specific effect of $Z_{ij}$ for subject $i$,
+$\beta(\cdot)$ is the population effect of the functional predictor $M_{ij}(t)$, 
+$\beta_i(\cdot)$ is the random subject-specific effect of the functional predictor,
+and $\epsilon_{ij}$s are independently  and identically distributed (i.i.d.) random errors with distribution $\N(0,\sigma_{\epsilon}^2)$.
+We assume that $\gamma_i$s are i.i.d. with distribution $\N(0,\sigma^2_\gamma)$, $\beta_i(\cdot)$s are i.i.d. random functions following a Gaussian process over $\T$ with mean function $\E\{\beta_i(t)\} = 0$ and covariance function $\text{cov}\{\beta_i(s),\beta_i(t)\} = \C(s,t)$, and all random terms are independent across subjects and from each other. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Model estimation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The key idea is  to reduce model \eqref{eq:model}
+to a linear mixed effects model using the functional principal component 
+analysis (fPCA) of the functional predictor.
+Specifically,  assume that $X_{ij}(\cdot)$ are independent random functions from a Gaussian process
+with a mean function $\E\{X_{ij}(t)\}=\mu(t)$ and covariance function
+$\text{cov}\{X_{ij}(s), X_{ij}(t)\}= \mathcal{K}(s,t)$.
+The observed functional predictor might be contaminated with measurement errors. Thus, we consider
+the model for the functional predictor
+\begin{equation}
+\label{eq:W}
+W_{ijk} = X_{ij}(t_k) + e_{ijk},
+\end{equation}
+where $W_{ijk}$ is the observation at time $t_k$ for subject $i$ during visit $j$ and
+$e_{ijk}$s are measurement errors that are independent across $i$, $j$ and $k$ and
+are independent from the true random functions $X_{ij}(\cdot)$s.
+Note that model \eqref{eq:W} has a two-level nested structure, and
+a more complicated fPCA method such as the multilevel fPCA \cite{di2009multilevel}
+may be employed. For simplicity, we assume that $X_{ij}(\cdot)$ are independent across subjects and visits.
+By Meyer's theorem, $\mathcal{K}(s,t)$ can be decomposed as $\sum_{k=1}^{\infty} \lambda_k \phi_k(s)\phi_k(t)$,
+where $\lambda_1\geq\lambda_2\geq\cdots \geq 0$ are non-increasing eigenvalues with associated
+eigenfunctions $\phi_k(\cdot)$s that satisfy $\int_{\T} \phi_k(s)\phi_\ell(s) ds = 1_{\{k=\ell\}}$.
+Here $1_{\{\cdot\}}$ is 1 if the statement inside the bracket is true and 0 otherwise.
+Then by the Karhunen-Loeve expansion, $X_{ij}(\cdot)$ can be written as a linear combination of the eigenfunctions,
+i.e., $X_{ij}(t) = \mu(t) + \sum_{k=1}^{\infty}\xi_{ijk} \phi_k(t)$, where $\xi_{ijk}$s are independent
+ random scores with $\xi_{ijk}\sim \N(0,\lambda_k)$.
+The fPCA can be conducted using the fast covariance estimation (FACE) method  \cite{xiao2016fast},
+which is based on penalized splines and is implemented in the R function ``fpca.face" in the R package {\it refund}.
+Then, we obtain estimates of the eigenfunctions, $\hat{\phi}_k(\cdot)$, and estimates of the eigenvalues, $\hat{\lambda}_k$.
+The random scores $\xi_{ijk}$ can also be predicted, denoted by $\hat{\xi}_{ijk}$; see \cite{xiao2016fast} for more details.
+
+For model identifiability, we assume that $\beta(\cdot)$ can also be written as a linear combination of the eigenfunctions
+so that $\beta(t) = \sum_{k=1}^{\infty} \theta_k \phi_k(t)$, where $\theta_k$s are associated scalar coefficients to be determined.
+Similarly, let $\beta_i(\cdot) = \sum_{k=1}^{\infty} \theta_{ik}\phi_k(t)$, where $\theta_{ik}$s are independent subject-specific
+random coefficients with distribution $\N(0,\tau_k^2)$, where $\tau_k^2\geq 0$ are to be determined as well.
+Note that the induced covariance function $\C(s,t)$ equals $\sum_{k\geq 1} \tau_k^2 \phi_k(s)\phi_k(t)$.
+It follows that model \eqref{eq:model} can be rewritten as
+
+\begin{equation}
+\label{eq:lme}
+Y_{ij} = \alpha + Z_{ij}(\gamma + \gamma_i)  + \sum_{k=1}^{\infty} \xi_{ijk} (\theta_{k} + \theta_{ik}) + \epsilon_{ij}.
+\end{equation}
+
+Model \eqref{eq:lme} has infinitely many parameters and hence can be not be fitted, a well known problem for scalar on
+function regression. We follow the standard approach by truncating the number of eigenfunctions for approximating
+the functional predictor, so that the associated scores and parameters for $\beta(\cdot)$ and $\beta_i(\cdot)$ are all finite dimensional.
+Specifically, %denote the estimated eigenfunctions by $\hat{\phi}_k(\cdot)$ and the predicted scores by $\hat{\xi}_{ijk}$.
+let $K$ be the number of eigenfunctions to be selected.
+ Then an approximate and identifiable model is
+\begin{equation}
+\label{eq:lme:approx}
+Y_{ij} = \alpha + Z_{ij}(\gamma + \gamma_i)  + \sum_{k=1}^{K} {\xi}_{ijk} (\theta_{k} + \theta_{ik}) + \epsilon_{ij}.
+\end{equation}
+Model \eqref{eq:lme:approx} is a linear mixed effects model and can be easily fitted by standard software.
+
+In practice, the number of eigenfunctions $K$ is selected by AIC \cite{yao2005functional}.
+Denote the selected number by $\hat{K}$. Then a practical model for \eqref{eq:lme:approx}
+is
+\begin{equation}
+\label{eq:lme:prac}
+Y_{ij} = \alpha + Z_{ij}(\gamma + \gamma_i)  + \sum_{k=1}^{\hat{K}} \hat{\xi}_{ijk} (\theta_{k} + \theta_{ik}) + \epsilon_{ij}.
+\end{equation}
+Denote the corresponding estimates of $\theta_k$ by $\hat{\theta}_k$ and the prediction of $\theta_{ik}$ by $\hat{\theta}_{ik}$.
+Then,  $\hat{\beta}(t) = \sum_{k=1}^{\hat{K}} \hat{\theta}_k\hat{\phi}_k(t)$
+and $\hat{\beta}_i(t) = \sum_{k=1}^{\hat{K}} \hat{\theta}_{ik}\hat{\phi}_k(t)$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Test of random functional effect}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The interest is to assess if the functional
+effect is subject specific or the same across subjects.
+In other words, if $\beta_i(t) =0$ for all $i$ and $t\in \T$ in model \eqref{eq:model}
+or $\beta_i(t)\neq 0$ for some $i$ at some $t\in \T$. 
+Because $\beta_i(\cdot)$s are random coefficient functions,
+the test can be formulated in terms of its covariance function.
+The null hypothesis is $H_0: \C(s,t) = 0$ for all $(s,t)\in \T^2$
+and the alternative hypothesis is $H_a: \C(s,t)\neq 0$ for some $(s,t)\in \T^2$.
+Under $H_0$,  $\beta_i(t)=0$ for all $i$ and $t\in\T$ and model \eqref{eq:model}
+reduces to a standard scalar on function linear regression model. Testing zeroness of a covariance function
+is nonstandard and our ideas are as follows.
+First note that since
+$\mathcal{C}(s,t) = \sum_{k\geq 1} \tau_k^2 \phi_k(s)\phi_k(t)$, 
+an equivalent test is
+$H_0': \tau_k^2 = 0$ for all $k$ against
+$H_a': \tau_k^2 > 0$ for at least one $k$.
+Following \cite{mclean2015restricted}, we further simplify the test by making the assumption that
+\begin{equation}\label{eq:equalVar}
+\tau_k^2 = \tau^2 \text{ for all }  k, 
+\end{equation}
+and consider the corresponding test
+$\tilde{H}_0: \tau^2 = 0$ against $\tilde{H}_a: \tau^2 \neq 0$.
+Note that under $H_0$, $\tilde{H}_0$ still holds. While $H_a$ is much more general than $\tilde{H}_a$,
+simultaneous test of zeroness of multiple variance components is challenging.
+While existing tests can be implemented,
+as will be illustrated in the simulation studies, these tests do not even
+maintain proper sizes under the null hypothesis. 
+On the contrary, the proposed test of testing zeroness of one variance component
+maintains proper size and has good power.
+
+Another issue is that standard testing procedure such as LRT/RLRT is not applicable to model \eqref{eq:lme:approx} because the model
+has multiple additive random slopes. In the next subsection, we transform \eqref{eq:lme:approx}
+into an equivalent mixed effect model, which has only one random slope term and can be
+easily tested.
+
+
+\subsection{Equivalent model formulation of \eqref{eq:lme:approx}}
+
+%In other words, the general model is in the form of  $y_{ij} = \alpha P_{ij} + \alpha_i Q_{ij} + \epsilon_{ij}$, where $\alpha$ is the vector of fixed effect terms and $\alpha_i$ is the vector of random effect terms while $P_{ij}$ is $K+2$-dimensionality coefficient vector and $Q_{ij}$ is of $K+1$ dimensionality. Further, the matrix form of the model can be written as $\V{y}_{i} = \M{\alpha} \V{P}_{i} + \M{\alpha}_i \V{Q}_{i} + \V{\epsilon}_{i}$, where $\M{\alpha}$ is a $J_i\times(K+2)$-matrix of fixed effect terms and a $J\times(K+1)$-matrix of random effect terms while $P_{ij}$ is $K+2$-dimensionality coefficient vector and $Q_{ij}$ is of $K+1$ dimensionality, with $\V{\epsilon}_{i}$ a $J_i$-dimensionality white noise.
+Under the assumption \eqref{eq:equalVar}, the  random effects and random errors are independent from each other and
+satisfy the following distribution assumptions:
+\begin{equation}\label{eq:random}
+\gamma_i \sim \N(0, \sigma^2_\gamma), \, \theta_{ik} \sim \N(0, \tau^2),\epsilon_{ij} \sim \N(0, \sigma_\epsilon^2).
+\end{equation}
+
+The goal of the equivalent model formulation is to convert a set of homoscedastic random subject-specific slopes in \eqref{eq:lme:approx} into one simple  random slope, so that the test on homoscedastic random slopes can be conducted using standard software.
+
+Let $\V{y}_i = (Y_{i1},\ldots, Y_{iJ_i})\Tra\in \R^{J_i}$,
+$\V{Z}_i = (Z_{i1},\ldots, Z_{iJ_i})\Tra\in\R^{J_i}$, 
+$\V{A}_i = (\xi_{ijk})_{jk}\in\R^{J_i\times K}$,
+and $\V{\epsilon}_i = (\epsilon_{i1},\ldots, \epsilon_{iJ_i})\Tra\in\R^{J_i}$.
+Also let $\V{\theta} = (\theta_1,\ldots, \theta_K)\Tra\in\R^K$ and
+$\V{\theta}_i = (\theta_{i1},\ldots,\theta_{iK})\Tra\in \R^K$.
+Then model $(\ref{eq:lme:approx})$ can be written in the matrix form
+$$
+\V{y}_{i} =\delta \V{1}_{J_i} + \V{Z}_{i} (\gamma + \gamma_i) + \M{A}_{i} ( \V{\theta} +  \V{\theta}_{i}) + \V{\epsilon}_{i}.
+$$
+Let
+$\M{\Delta}_i= \begin{pmatrix}\V{1}_{J_i} &\V{Z}_{i}& \M{A}_{i} \end{pmatrix}\in\R^{J_i\times (2+K)}$ and
+$\V{\alpha} = (\delta,\gamma,\V{\theta}\Tra)\Tra\in\R^{2+K}$. It follows that
+\begin{equation}
+\label{eq:matrix}
+\V{y}_{i} = \M{\Delta}_i \V{\alpha} +\gamma_i\V{Z}_{i} + \M{A}_{i} \V{\theta}_{i}  + \V{\epsilon}_{i}.
+\end{equation}
+%\begin{aligned}
+%Y_{ij} &= \delta +Z_{ij} (\gamma + \gamma_i)  + \sum_{k=1}^{K} a_{ijk} (\theta_{k} + \theta_{ik}) + \epsilon_{ij} \\
+%\iff \V{y}_{i} &=\delta \V{1}_{J_i} + \V{Z}_{i} (\gamma + \gamma_i) + \M{A}_{i} ( \V{\theta} +  \V{\theta}_{i}) + \V{\epsilon}_{i} \\
+%\iff \V{y}_{i} &= (\delta \V{1}_{J_i} + \gamma \V{Z}_{i} + \M{A}_{i} \V{\theta}) + (\gamma_i\V{Z}_{i} + \M{A}_{i} \V{\theta}_{i} )+ \V{\epsilon}_{i} \\
+%\iff \V{y}_{i} &= \begin{pmatrix}\V{1}_{J_i} &\V{Z}_{i}& \M{A}_{i} \end{pmatrix} \cdot \begin{pmatrix}\delta\\
+%\gamma\\
+%\V{\theta}\end{pmatrix}+\gamma_i\V{Z}_{i} + \M{A}_{i} \V{\theta}_{i}  + \V{\epsilon}_{i}\\
+%\iff \V{y}_{i} &= \M{\Delta}_i \V{\alpha} +\gamma_i\V{Z}_{i} + \M{A}_{i} \V{\theta}_{i}  + \V{\epsilon}_{i}\\
+%\iff \V{y}_{i} &= \M{\Delta}_i \V{f} + \begin{pmatrix}\V{Z}_{i}&\M{A}_{i}\end{pmatrix}\cdot\begin{pmatrix}\gamma_i\\ \V{\theta}_{i} \end{pmatrix} + \V{\epsilon}_{i}\\
+%\iff \V{y}_{i} &= \M{\Delta}_i \V{f}  + \M{\Theta}_{i}\V{r}_{i}+ \V{\epsilon}_{i}
+%\end{aligned}
+%$$
+%where 
+Let $\M{U}_{i}\M{D}_i^{\frac{1}{2}}\M{V}_{i}\Tra$ be the singular value decomposition of $\M{A}_i$,
+where $\M{U}_i\Tra\M{U}_i = \mathbf{I}_{J_i}$, $\M{V}_i\Tra\M{V}_i = \mathbf{I}_{J_i}$,
+and $\M{D}_i = \text{diag}(d_{i1},\ldots, d_{iJ_i})$ is a diagonal matrix of the singular values of $\M{A}_i$.
+Let $\tilde{\V{y}}_i = (\tilde{Y}_{i1},\ldots, \tilde{Y}_{iJ_i})\Tra= \M{U}_i\Tra\V{y}_i\in \R^{J_i}$, $\tilde{\V{\theta}}_i =
+(\tilde{\theta}_{i1},\ldots,\tilde{\theta}_{iJ_i})\Tra = \M{V}_i\Tra\M{\theta}_i$,
+and $\tilde{\V{\epsilon}}_i = (\tilde{\epsilon}_{i1},\ldots, \tilde{\epsilon}_{iJ_i})\Tra = \M{U}_i\Tra\M{\epsilon}_i$.
+Then a left multiplication of \eqref{eq:matrix}
+by $\M{U}_i\Tra$ gives
+%$$
+%\begin{aligned}
+%\tilde{\V{y}}_{i} &\equiv \M{U}_{i}\Tra \V{y}_{i} = \M{U}_{i}\Tra  \{\M{\Delta}_i \V{f}  + \gamma_i\V{Z}_{i}\} + \M{U}_{i}\Tra  \M{A}_{i} \V{\theta}_{i} + \M{U}_{i}\Tra  \V{\epsilon}_{i} \\
+%\iff \tilde{\V{y}}_{i} &= \M{U}_{i}\Tra \{ \M{\Delta}_i \V{f} + \gamma_i \V{Z}_{i}\} + \M{D}_{i}^{\frac{1}{2}} \M{V}_{i}\Tra  \V{\theta}_{i} + \M{U}_{i}\Tra  \V{\epsilon}_{i} \\
+%\iff \tilde{\V{y}}_{i} &= \M{U}_{i}\Tra  \{ \M{\Delta}_i \V{f} + \gamma_i \V{Z}_{i}\} + \text{diag}\{\sqrt{d_{ij}}\} \tilde{\V{\theta}}_{i} + \tilde{\V{\epsilon}}_{i} \\
+%\end{aligned}
+%$$
+%
+%
+%$\V{z}_i=(Z_{i1},\dots, Z_{iJ_i})\Tra$ is a $J_i$-dimensional fixed covariate vector for $i^{th}$ subject across $J_i$ times visits, $\M{\Delta}_i \in \mathbb{R}^{_{J_i \times (K+2)}}$ denotes covariates for the fixed effect of $i^{th}$ subject, $\M{\Theta}_i \in \mathbb{R}^{_{J_i \times(K+1)}}$ denotes covariates for the random effect of $i^{th}$ subject, $\V{f}$ is a $(K+2)$ dimentional vector representing the fixed coefficient, and $\V{r}_i$ is a $(K+2)$ dimentional vector representing the random part coefficient of $i^{th}$ subject, and $\V{\theta}_{i}\sim \text{MVN}(\V{0}, \tau^2 \M{I}_{J_i})$,  with $\V{\epsilon}_{i}$ a $J_i$-dimensionality white noise.
+%
+%Since the covariance function of $\V{y}_{i}$ is that
+%
+%$$
+%\begin{aligned}
+%COV(\V{y}_{i}|\V{f},\V{r}_i) &= \V{Z}_{i} \text{diag}\{\sigma^2_{\gamma}\} \V{Z}_{i}\Tra + \M{A}_{i} \text{diag}\{\tau^2 \} \M{A}_{i}\Tra + \sigma^2 \M{I}_{J_i} \\
+%&= \sigma^2_{\gamma} \V{Z}_{i} \V{Z}_{i}\Tra + \tau^2 \M{A}_{i} \M{A}_{i}\Tra + \sigma^2 \M{I}_{J_i}, \\
+%\end{aligned}
+%$$
+%
+%Conducting SVD Decomposition on 
+%$$
+%\begin{cases}
+%COV(\tilde{\V{y}}_{i}|\V{f},\V{r}_i) &= \sigma^2_{\gamma} \M{U}_{i}\Tra \V{Z}_{i} \V{Z}_{i}\Tra \M{U}_{i} + \tau^2 \M{D}_{i} + \sigma^2 \M{I}_j \\
+%\tilde{\V{\theta}}_{i}=\M{V}_{i}\Tra  \V{\theta}_{i} &\sim Multi \, Normal(\V{0}, \text{diag}\{\tau^2\}). \\
+%\end{cases}
+%$$
+%Therefore, the random slopes on $\M{A}_{i}$ can be simplified as one random slope term as
+$$
+\tilde{\V{y}}_{i} = (\M{U}_{i}\Tra \M{\Delta}_i) \V{\alpha} + ( \M{U}_{i}\Tra \V{Z}_{i})\gamma_i +\V{D}^{\frac{1}{2}}_i \tilde{\M{\theta}}_i + \tilde{\M{\epsilon}}_{i},
+$$
+or equivalently,
+\begin{equation}
+\label{eq:SVD-transform}
+\tilde{Y}_{ij} = (\M{U}_{ij}\Tra \M{\Delta}_i) \V{\alpha} + ( \M{U}_{ij}\Tra \V{Z}_{i})\gamma_i + \sqrt{d_{ij}} \tilde{\theta}_{ij} + \tilde{\epsilon}_{ij}, \\
+\end{equation}
+where $\M{U}_{ij}$ is the $j$th column of $\M{U}_i$. The specification \eqref{eq:random} now becomes
+  $\gamma_i \sim \N(0,\sigma^2_\gamma)$, 
+$\tilde{\theta}_{ij} \sim \N(0,\tau^2)$,
+$\tilde{\epsilon}_{ij}\sim \N(0,\sigma_\epsilon^2)$,
+and the random terms are independent across $i$ and $j$, and 
+are independent from each other.
+Model \eqref{eq:SVD-transform} can be fitted by standard mixed model 
+using the R function {\it lmer} and then the test of $\tau^2 = 0$ can be conducted
+by the LRT/RLRT test.
+
+%$\begin{cases}\gamma_i &\sim N(0, \sigma^2_\gamma) \\ \tilde \theta_{ij} &\sim N(0, \tau^2) \\ \tilde \epsilon_{ij} &\sim N(0, \sigma^2)\end{cases}$. 
+
+%Note that, although the dimensionality of the random slopes on $\M{A}_{i}$ has been successfully reduced to one, the property of the random effect term $\gamma_i$ has been changed to random slope from random intercept, which balances the overall dimensionality of the random slopes within the whole model setting. Due to the different grouping on either $\gamma_i$ or tranformed $\tilde{\V{\theta}}_{i}$ seperatedly, the '$pdIdent$' Model Fitting Structure failed to be applied on $\gamma_i$ in '$lme$' approach, so the model is estimated in the heterskedastic approach in '$lmer$'.
+
+

@@ -1,0 +1,78 @@
+\begin{thebibliography}{10}
+
+\bibitem{cohen2017computational}
+Jonathan~D Cohen, Nathaniel Daw, Barbara Engelhardt, Uri Hasson, Kai Li, Yael
+  Niv, Kenneth~A Norman, Jonathan Pillow, Peter~J Ramadge, Nicholas~B
+  Turk-Browne, et~al.
+\newblock Computational approaches to fmri analysis.
+\newblock {\em Nature neuroscience}, 20(3):304, 2017.
+
+\bibitem{di2009multilevel}
+Chong-Zhi Di, Ciprian~M Crainiceanu, Brian~S Caffo, and Naresh~M Punjabi.
+\newblock Multilevel functional principal component analysis.
+\newblock {\em The annals of applied statistics}, 3(1):458, 2009.
+
+\bibitem{goldsmith2015generalized}
+Jeff Goldsmith, Vadim Zipunnikov, and Jennifer Schrack.
+\newblock Generalized multilevel function-on-scalar regression and principal
+  component analysis.
+\newblock {\em Biometrics}, 71(2):344--353, 2015.
+
+\bibitem{lindquist2012functional}
+Martin~A Lindquist.
+\newblock Functional causal mediation analysis with an application to brain
+  connectivity.
+\newblock {\em Journal of the American Statistical Association},
+  107(500):1297--1309, 2012.
+
+\bibitem{lindquist2008statistical}
+Martin~A Lindquist et~al.
+\newblock The statistical analysis of fmri data.
+\newblock {\em Statistical science}, 23(4):439--464, 2008.
+
+\bibitem{mclean2015restricted}
+Mathew~W McLean, Giles Hooker, and David Ruppert.
+\newblock Restricted likelihood ratio tests for linearity in scalar-on-function
+  regression.
+\newblock {\em Statistics and Computing}, 25(5):997--1008, 2015.
+
+\bibitem{ramsay2006functional}
+James~O Ramsay.
+\newblock {\em Functional data analysis}.
+\newblock Wiley Online Library, 2006.
+
+\bibitem{ramsay2007applied}
+James~O Ramsay and Bernard~W Silverman.
+\newblock {\em Applied functional data analysis: methods and case studies}.
+\newblock Springer, 2007.
+
+\bibitem{wager2008prefrontal}
+Tor~D Wager, Matthew~L Davidson, Brent~L Hughes, Martin~A Lindquist, and
+  Kevin~N Ochsner.
+\newblock Prefrontal-subcortical pathways mediating successful emotion
+  regulation.
+\newblock {\em Neuron}, 59(6):1037--1050, 2008.
+
+\bibitem{wang2016functional}
+Jane-Ling Wang, Jeng-Min Chiou, and Hans-Georg M{\"u}ller.
+\newblock Functional data analysis.
+\newblock {\em Annual Review of Statistics and Its Application}, 3:257--295,
+  2016.
+
+\bibitem{xiao2018fast}
+Luo Xiao, Cai Li, William Checkley, and Ciprian Crainiceanu.
+\newblock Fast covariance estimation for sparse functional data.
+\newblock {\em Statistics and computing}, 28(3):511--522, 2018.
+
+\bibitem{xiao2016fast}
+Luo Xiao, Vadim Zipunnikov, David Ruppert, and Ciprian Crainiceanu.
+\newblock Fast covariance estimation for high-dimensional functional data.
+\newblock {\em Statistics and computing}, 26(1-2):409--421, 2016.
+
+\bibitem{yao2005functional}
+Fang Yao, Hans-Georg M{\"u}ller, and Jane-Ling Wang.
+\newblock Functional data analysis for sparse longitudinal data.
+\newblock {\em Journal of the American Statistical Association},
+  100(470):577--590, 2005.
+
+\end{thebibliography}
